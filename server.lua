@@ -159,9 +159,9 @@ RegisterCommand("setOwner", function(source, args, rawCommand)
 		    cfg[steam] = vehiclesList
 		    TriggerEvent("primerp_vehwl:saveFile", cfg)		 
 		    TriggerClientEvent('chatMessage', source, prefix .. "^2Success: You have set ^5" 
-		    	.. GetPlayerName(id) .. "^2 as the owner to the vehicle, ^5" .. vehicle)
+		    	.. GetPlayerName(id) .. "^2 as the owner to the vehicle ^5" .. vehicle)
 		    TriggerClientEvent('chatMessage', id, prefix .. "^2You have been set " 
-		    	.. " to the owner of vehicle, ^5" .. vehicle .. "^2 by ^5" .. GetPlayerName(source))
+		    	.. " to the owner of vehicle ^5" .. vehicle .. "^2 by ^5" .. GetPlayerName(source))
 		else
 			-- Vehicle is owned, need to /clear it first
 			TriggerClientEvent('chatMessage', source, prefix .. 
@@ -321,5 +321,5 @@ RegisterCommand("untrust", function(source, args, rawCommand)
 		.. GetPlayerName(id) .. "^1 no longer has permission to drive your vehicle ^5"
 	 .. vehicle)
 	TriggerClientEvent('chatMessage', id, prefix .. "^1Your " 
-		    	.. " trust to use the vehicle, ^5" .. vehicle .. " ^1has been revoked by owner ^5" .. GetPlayerName(source))
+		    	.. " trust to use the vehicle ^5" .. vehicle .. " ^1has been revoked by owner ^5" .. GetPlayerName(source))
 end)
