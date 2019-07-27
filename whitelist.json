@@ -1,1 +1,17 @@
-{}
+{
+  "steam:11000013b134a1b":[{
+      "allowed":true,
+      "spawncode":"GTC4",
+      "owner":true
+    }],
+  "steam:1100001053e5a56":[{
+      "allowed":true,
+      "spawncode":"MOSS",
+      "owner":false
+    }],
+  "steam:1100001080a16d5":[{
+      "allowed":true,
+      "spawncode":"MOSS",
+      "owner":true
+    }]
+}

@@ -45,6 +45,29 @@ AddEventHandler('primerp_vehwl:Server:Check', function()
 end)
 
 --- COMMANDS ---
+RegisterCommand("vehicles", function(source, args, rawCommand)
+    -- Get the vehicles they can drive
+    local al = LoadResourceFile(GetCurrentResourceName(), "whitelist.json")
+    local cfg = json.decode(al)
+    local allowed = {}
+    local myIds = GetPlayerIdentifiers(source)
+    for pair,_ in pairs(cfg) do
+        -- Pair
+        if (pair == myIds[1]) then
+            for _,v in ipairs(cfg[pair]) do
+                --print(v.allowed)
+                --print("The vehicle is " .. v.spawncode .. " and allowed = " .. tostring(v.allowed) .. " with ID as " .. tostring(pair))
+                if (v.allowed) then
+                    table.insert(allowed, v.spawncode)
+                end
+            end
+        end
+    end
+    if #allowed > 0 then
+        TriggerClientEvent('chatMessage', source, prefix .. "^2You are allowed access to drive the following vehicles:")
+        TriggerClientEvent('chatMessage', source, "^0" .. table.concat(allowed, ', '))
+    end
+end)
 RegisterCommand("clear", function(source, args, rawCommand)
 	-- /clear <spawncode> == Basically reset a vehicle's data (owners and allowed to drive)
     if IsPlayerAceAllowed(source, "VehwlCommands.Access") then
@@ -62,7 +85,7 @@ RegisterCommand("clear", function(source, args, rawCommand)
         	for _,veh in ipairs(cfg[pair]) do
         		ind = ind + 1
         		if string.upper(veh.spawncode) == string.upper(vehicle) then
-        			cfg[pair][ind] = nil
+                    table.remove(cfg[pair], ind)
         		end
         	end
         end
