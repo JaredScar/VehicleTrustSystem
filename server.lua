@@ -66,6 +66,8 @@ RegisterCommand("vehicles", function(source, args, rawCommand)
     if #allowed > 0 then
         TriggerClientEvent('chatMessage', source, prefix .. "^2You are allowed access to drive the following vehicles:")
         TriggerClientEvent('chatMessage', source, "^0" .. table.concat(allowed, ', '))
+    else
+        TriggerClientEvent('chatMessage', source, prefix .. "^1Sadly no one has gave you access to drive a personal vehicle :(")
     end
 end)
 RegisterCommand("clear", function(source, args, rawCommand)
