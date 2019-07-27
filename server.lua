@@ -47,31 +47,33 @@ end)
 --- COMMANDS ---
 RegisterCommand("clear", function(source, args, rawCommand)
 	-- /clear <spawncode> == Basically reset a vehicle's data (owners and allowed to drive)
-	-- Check args
-    if #args < 1 then
-    	TriggerClientEvent('chatMessage', source, prefix .. "^1ERROR: Not enough arguments... ^1Valid: /clear <spawncode>")
-    	return;
+    if IsPlayerAceAllowed(source, "VehwlCommands.Access") then
+    	-- Check args
+        if #args < 1 then
+        	TriggerClientEvent('chatMessage', source, prefix .. "^1ERROR: Not enough arguments... ^1Valid: /clear <spawncode>")
+        	return;
+        end
+    	local vehicle = string.upper(args[1])
+    	local al = LoadResourceFile(GetCurrentResourceName(), "whitelist.json")
+    	local cfg = json.decode(al)
+    	for pair,_ in pairs(cfg) do
+        	-- Pair
+        	local ind = 0
+        	for _,veh in ipairs(cfg[pair]) do
+        		ind = ind + 1
+        		if string.upper(veh.spawncode) == string.upper(vehicle) then
+        			cfg[pair][ind] = nil
+        		end
+        	end
+        end
+        TriggerClientEvent('chatMessage', source, prefix .. "^2Success: Removed all data of vehicle ^5" .. vehicle .. "^2")
+        TriggerClientEvent('vehwl:Cache:Update:ClearVeh', -1, vehicle)
+        TriggerEvent("primerp_vehwl:saveFile", cfg)
     end
-	local vehicle = string.upper(args[1])
-	local al = LoadResourceFile(GetCurrentResourceName(), "whitelist.json")
-	local cfg = json.decode(al)
-	for pair,_ in pairs(cfg) do
-    	-- Pair
-    	local ind = 0
-    	for _,veh in ipairs(cfg[pair]) do
-    		ind = ind + 1
-    		if string.upper(veh.spawncode) == string.upper(vehicle) then
-    			cfg[pair][ind] = nil
-    		end
-    	end
-    end
-    TriggerClientEvent('chatMessage', source, prefix .. "^2Success: Removed all data of vehicle ^5" .. vehicle .. "^2")
-    TriggerClientEvent('vehwl:Cache:Update:ClearVeh', -1, vehicle)
-    TriggerEvent("primerp_vehwl:saveFile", cfg)
 end)
 RegisterCommand("setOwner", function(source, args, rawCommand)
     -- Needs a staff Ace perm to do this
-    if IsPlayerAceAllowed(source, "VehwlCommands.setOwner") then
+    if IsPlayerAceAllowed(source, "VehwlCommands.Access") then
 	    if #args < 2 then
 	        -- Too low args
 	        TriggerClientEvent('chatMessage', source, prefix .. "^1ERROR: Not enough arguments... ^1Valid: /setOwner <id> <vehicleSpawncode>")
