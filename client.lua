@@ -4,12 +4,11 @@ function ShowInfo(text)
     AddTextComponentSubstringPlayerName(text)
     DrawNotification(false, false)
 end
-
 Citizen.CreateThread(function()
     local myIdss = getIdentifiers()
     print(myIdss)
     while true do
-        Citizen.Wait(4000)
+        Citizen.Wait(10000)
         TriggerServerEvent('primerp_vehwl:reloadwl') 
         TriggerServerEvent('primerp_vehwl:Server:Check')
     end
@@ -41,8 +40,8 @@ AddEventHandler('primerp_vehwl:RunCode:Client', function(cfg)
         for pair,_ in pairs(cfg) do
             -- Pair
             for _,vehic in ipairs(cfg[pair]) do
-                print("Checking if exists with vehic.spawncode == " .. string.upper(vehic.spawncode) .. " and spawncode == "
-                    .. string.upper(spawncode))
+                --print("Checking if exists with vehic.spawncode == " .. string.upper(vehic.spawncode) .. " and spawncode == "
+                    --.. string.upper(spawncode))
                 if (GetHashKey(vehic.spawncode) == spawncode) then
                     exists = true
                 end
@@ -61,7 +60,7 @@ AddEventHandler('primerp_vehwl:RunCode:Client', function(cfg)
     end
     --print("Value of exists == " .. tostring(exists) .. " and value of allowed == " .. tostring(allowed))
     if (exists and not allowed) then
-        print("It should delete the vehicle for " .. GetPlayerName(source))
+        --print("It should delete the vehicle for " .. GetPlayerName(source))
         DeleteEntity(veh)
         ClearPedTasksImmediately(ped)
         TriggerEvent('primerp_vehwl:RunCode:Success', source)
